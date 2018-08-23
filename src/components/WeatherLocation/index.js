@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 //import { Preloader } from 'react-materialize';
 import CircularProgress from 'material-ui/CircularProgress';
 import Location from './Location';
@@ -7,21 +8,31 @@ import transformWeather from './../../services/transformWeather';
 import './styles.css';
 
 const KEY = 'bfff2827e97e0b54a2d60cf2db8d2209';
-const LOCATION = 'Madrid,es';
-const api_weather = `http://api.openweathermap.org/data/2.5/weather?q=${LOCATION}&appid=${KEY}`;
+const URL = 'http://api.openweathermap.org/data/2.5/weather';
 
 class WeatherLocation extends Component {
-    constructor(){
+    constructor({city}){
         super();
         this.state = {
-            city: "Madrid",
+            city,
             data: null
         };
     }
 
     componentWillMount = () => { // execute once
         //console.log("1) componentWillMount")
-        this.handleUpdateClick();
+        const { city } = this.state;
+        const api_weather = `${URL}?q=${city}&appid=${KEY}`;
+
+        //  PROMISES
+        fetch(api_weather)
+            .then(res => res.json())
+            .then(weatherData => {
+                const data = transformWeather(weatherData);
+                this.setState({
+                    data: data // is not neccesary include param city because new value is equal to original value
+                });
+            });
     }
 
     componentDidMount = () => { // execute once
@@ -44,19 +55,10 @@ class WeatherLocation extends Component {
             </div>
         );
     }
+}
 
-    handleUpdateClick = () => {
-
-        //  PROMISES
-        fetch(api_weather)
-            .then(res => res.json())
-            .then(weatherData => {
-                const data = transformWeather(weatherData);
-                this.setState({
-                    data: data // is not neccesary include param city because new value is equal to original value
-                });
-            });
-    }
+WeatherLocation.propTypes = {
+    city: PropTypes.string,
 }
 
 export default WeatherLocation;
