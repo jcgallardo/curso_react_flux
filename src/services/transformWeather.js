@@ -1,4 +1,4 @@
-import { CLOUDY, SUN, RAIN, SNOW, WINDY, THUNDER, DRIZZLE } from '../constants/weathers';
+import { CLOUDY, SUN, RAIN, SNOW, THUNDER, DRIZZLE } from '../constants/weathers';
 import convert from 'convert-units';
 
 const getTemp = kelvin => {
