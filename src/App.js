@@ -3,9 +3,9 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import LocationList from  './components/LocationList';
 import ForecastExtended from './components/ForecastExtended';
 import { Grid, Row, Col} from 'react-flexbox-grid';
-//import Paper from 'material-ui/Paper';
+import {store} from './store';
+import {setCity} from './actions';
 import AppBar from 'material-ui/AppBar';
-//import logo from './logo.svg';
 import './App.css';
 
 const cities = [
@@ -15,6 +15,9 @@ const cities = [
   'Puertollano,es'
 ];
 
+
+
+// Clase principal
 class App extends Component {
 
     constructor(){
@@ -24,6 +27,7 @@ class App extends Component {
 
     handleSelectedLocation = city => {
         this.setState({city})
+        store.dispatch(setCity(city));
     }
 
     render() {
