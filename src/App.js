@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import LocationList from  './components/LocationList';
+import ForecastExtended from './components/ForecastExtended';
 import { Grid, Row, Col} from 'react-flexbox-grid';
 //import Paper from 'material-ui/Paper';
 import AppBar from 'material-ui/AppBar';
@@ -16,23 +17,17 @@ const cities = [
 
 class App extends Component {
 
-  handleSelectedLocation = city => {
-    console.log(`handleSelectionLocation ${city}`);
-  }
+    constructor(){
+        super();
+        this.state = { city : null }
+    }
+
+    handleSelectedLocation = city => {
+        this.setState({city})
+    }
 
     render() {
-        /*return (
-            <MuiThemeProvider>
-                <Grid fluid>
-                    <Row>
-                        <Col xs={12} sm={6} md={4}>
-                            <div className="red"></div>
-                        </Col>
-                    </Row>
-                </Grid>
-            </MuiThemeProvider>
-        )
-        */
+        const {city} = this.state;
 
         return (
             <MuiThemeProvider>
@@ -43,14 +38,20 @@ class App extends Component {
                         </Col>
                     </Row>
                     <Row>
-                        <Col xs={12} md={6}>
+                        <Col xs={12} lg={6}>
                             <LocationList 
                                 cities={cities} 
                                 onSelectedLocation={this.handleSelectedLocation}
                             />
                         </Col>
-                        <Col cs={12} md={6}>
-                            <div className="detail"></div>
+                        <Col xs={12} lg={6}>
+                            <div className="detail">
+                                { 
+                                    city ?
+                                    <ForecastExtended city={city}></ForecastExtended> :
+                                    null
+                                }
+                            </div>
                         </Col>
                     </Row>
                 </Grid>
