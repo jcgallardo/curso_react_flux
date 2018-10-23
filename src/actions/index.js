@@ -1,14 +1,22 @@
 import transformForecast from '../services/transformForecast';
+import transformWeather from '../services/transformWeather';
 
 export const SET_CITY = 'SET_CITY';
 export const SET_FORECAST_DATA = 'SET_FORECAST_DATA';
+export const SET_WEATHER = 'SET_WEATHER'
+
+export const GET_WEATHER_CITY = 'GET_WEATHER_CITY'
+export const SET_WEATHER_CITY = 'SET_WEATHER_CITY'
 
 // action creator --> it is a great way to separate action creator from component
 const setCity = (valor) => ({ type: SET_CITY, valor});
-const setForecastData = valor => ({ type: SET_FORECAST_DATA, valor })
+const setForecastData = valor => ({ type: SET_FORECAST_DATA, valor });
 
+const getWeatherCity = payload => ({type: GET_WEATHER_CITY, payload});
+const setWeatherCity = payload => ({type: SET_WEATHER_CITY, payload});
 const KEY = 'bfff2827e97e0b54a2d60cf2db8d2209';
 const URL = 'http://api.openweathermap.org/data/2.5/forecast';
+const URL_WEATHER = 'http://api.openweathermap.org/data/2.5/weather'
 
 export const setSelectedCity = payload => {
     return dispatch => {
@@ -29,4 +37,22 @@ export const setSelectedCity = payload => {
 
         return;
     }
+}
+
+export const setWeather = payload => {
+  return dispatch => {
+    payload.forEach(city => {
+
+      dispatch(getWeatherCity(city))
+
+      const api_weather = `${URL_WEATHER}?q=${payload}&appid=${KEY}`;
+      fetch(api_weather)
+        .then(res => res.json())
+        .then(weatherData => {
+          const weather = transformWeather(weatherData);
+
+          dispatch(setWeatherCity({ city, weather }))
+        });
+    })
+  }
 }
