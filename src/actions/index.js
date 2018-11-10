@@ -45,7 +45,7 @@ export const setWeather = payload => {
 
       dispatch(getWeatherCity(city))
 
-      const api_weather = `${URL_WEATHER}?q=${payload}&appid=${KEY}`;
+      const api_weather = `${URL_WEATHER}?q=${city}&appid=${KEY}`;
       fetch(api_weather)
         .then(res => res.json())
         .then(weatherData => {

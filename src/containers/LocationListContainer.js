@@ -30,7 +30,6 @@ class LocationListContainer extends Component {
 LocationListContainer.propTypes = {
   setSelectedCity: PropTypes.func.isRequired,
   setWeather: PropTypes.func.isRequired,
-  setCity: PropTypes.func.isRequired,
   cities: PropTypes.array.isRequired,
   citiesWeather: PropTypes.array,
 }
