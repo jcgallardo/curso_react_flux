@@ -9,8 +9,8 @@ export const GET_WEATHER_CITY = 'GET_WEATHER_CITY'
 export const SET_WEATHER_CITY = 'SET_WEATHER_CITY'
 
 // action creator --> it is a great way to separate action creator from component
-const setCity = (valor) => ({ type: SET_CITY, valor});
-const setForecastData = valor => ({ type: SET_FORECAST_DATA, valor });
+const setCity = (payload) => ({ type: SET_CITY, payload});
+const setForecastData = (payload) => ({ type: SET_FORECAST_DATA, payload });
 
 const getWeatherCity = payload => ({type: GET_WEATHER_CITY, payload});
 const setWeatherCity = payload => ({type: SET_WEATHER_CITY, payload});
