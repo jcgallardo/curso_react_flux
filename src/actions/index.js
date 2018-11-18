@@ -19,14 +19,23 @@ const URL = 'http://api.openweathermap.org/data/2.5/forecast';
 const URL_WEATHER = 'http://api.openweathermap.org/data/2.5/weather'
 
 export const setSelectedCity = payload => {
-    return dispatch => {
+    return (dispatch, getState) => {
         // fetch or axios
         const url_forecast = `${URL}?q=${payload}&appid=${KEY}`;
         
         // activar en el estado un indicador de búsqueda de datos
         dispatch(setCity(payload));
 
-        fetch(url_forecast)
+        const state = getState();
+        const date = state.cities[payload] && state.cities[payload].forecastDataDate;
+
+        const now = new Date();
+
+        if(date && (now - date) < 1 * 60 * 1000){
+            return ;
+        }
+
+        return fetch(url_forecast)
             .then((data) => data.json())
             .then((weatherData) => {
                 const forecastData = transformForecast(weatherData);
@@ -34,8 +43,6 @@ export const setSelectedCity = payload => {
                 // modificar el estado con el resultado de la promise
                 dispatch(setForecastData({city: payload, forecastData}));
             });
-
-        return;
     }
 }
 
